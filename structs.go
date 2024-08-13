@@ -6,6 +6,33 @@ type FireflyAccount struct {
 	Type string `json:"type"`
 }
 
+type FireflyAccountRequest struct {
+	Name               string  `json:"name,omitempty"`
+	Type               string  `json:"type,omitempty"`
+	IBAN               string  `json:"iban,omitempty"`
+	BIC                string  `json:"bic,omitempty"`
+	AccountNumber      string  `json:"account_number,omitempty"`
+	OpeningBalance     string  `json:"opening_balance,omitempty"`
+	OpeningBalanceDate string  `json:"opening_balance_date,omitempty"`
+	VirtualBalance     string  `json:"virtual_balance,omitempty"`
+	CurrencyID         string  `json:"currency_id,omitempty"`
+	CurrencyCode       string  `json:"currency_code,omitempty"`
+	Active             bool    `json:"active,omitempty"`
+	Order              int     `json:"order,omitempty"`
+	IncludeNetWorth    bool    `json:"include_net_worth,omitempty"`
+	AccountRole        string  `json:"account_role,omitempty"`
+	CreditCardType     string  `json:"credit_card_type,omitempty"`
+	MonthlyPaymentDate string  `json:"monthly_payment_date,omitempty"`
+	LiabilityType      string  `json:"liability_type,omitempty"`
+	LiabilityDirection string  `json:"liability_direction,omitempty"`
+	Interest           string  `json:"interest,omitempty"`
+	InterestPeriod     string  `json:"interest_period,omitempty"`
+	Notes              string  `json:"notes,omitempty"`
+	Latitude           float64 `json:"latitude,omitempty"`
+	Longitude          float64 `json:"longitude,omitempty"`
+	ZoomLevel          int     `json:"zoom_level,omitempty"`
+}
+
 // RequestParams defines the parameters for the API request.
 type RequestParams struct {
 	Limit int    `json:"limit"`
@@ -70,6 +97,10 @@ type Meta struct {
 	Pagination MetaPagination `json:"pagination"`
 }
 
+type CreateFireflyAccountResponse struct {
+	Data AccountData `json:"data"`
+}
+
 // FireflyAccountResponse represents the complete API response.
 type FireflyAccountResponse struct {
 	Data []AccountData `json:"data"`
@@ -129,4 +160,9 @@ type AlipayTransaction struct {
 	SuccessRefund    string `csv:"成功退款（元）"`
 	Remark           string `csv:"备注"`
 	FundStatus       string `csv:"资金状态"`
+}
+
+type TransactionError struct {
+	SourceData string
+	ErrorInfo  string
 }

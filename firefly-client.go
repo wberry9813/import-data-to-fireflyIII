@@ -35,8 +35,8 @@ func getAccounts(token string, params RequestParams) (FireflyAccountResponse, er
 
 	// Build the request URL with query parameters
 	queryParams := url.Values{}
-	queryParams.Set("limit", fmt.Sprintf("%d", params.Limit))
-	queryParams.Set("page", fmt.Sprintf("%d", params.Page))
+	// queryParams.Set("limit", fmt.Sprintf("%d", params.Limit))
+	// queryParams.Set("page", fmt.Sprintf("%d", params.Page))
 	if params.Date != "" {
 		queryParams.Set("date", params.Date)
 	}
@@ -50,7 +50,6 @@ func getAccounts(token string, params RequestParams) (FireflyAccountResponse, er
 	}
 
 	req.Header.Set("Authorization", "Bearer "+token)
-	//req.Header.Set("X-Trace-Id", "your-unique-uuid")
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -71,12 +70,10 @@ func getAccounts(token string, params RequestParams) (FireflyAccountResponse, er
 	return response, nil
 }
 
-func (f *FireflyClient) CreateAccount(account FireflyAccount) (*FireflyAccount, error) {
-	var response struct {
-		Data FireflyAccount `json:"data"`
-	}
+func (f *FireflyClient) CreateAccount(account FireflyAccountRequest) (*CreateFireflyAccountResponse, error) {
+	var response CreateFireflyAccountResponse
 
-	resp, err := f.client.R().SetBody(account).SetResult(&response).Post("/v1/accounts")
+	resp, err := f.client.R().SetBody(account).SetResult(&response).Post("/api/v1/accounts")
 	if err != nil {
 		return nil, err
 	}
@@ -85,11 +82,11 @@ func (f *FireflyClient) CreateAccount(account FireflyAccount) (*FireflyAccount, 
 		return nil, logError(resp)
 	}
 
-	return &response.Data, nil
+	return &response, nil
 }
 
 func (f *FireflyClient) CreateTransaction(transaction FireflyTransaction) error {
-	resp, err := f.client.R().SetBody(transaction).Post("/v1/transactions")
+	resp, err := f.client.R().SetBody(transaction).Post("/api/v1/transactions")
 	if err != nil {
 		return err
 	}
