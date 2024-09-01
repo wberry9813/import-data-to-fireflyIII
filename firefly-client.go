@@ -35,8 +35,8 @@ func getAccounts(token string, params RequestParams) (FireflyAccountResponse, er
 
 	// Build the request URL with query parameters
 	queryParams := url.Values{}
-	// queryParams.Set("limit", fmt.Sprintf("%d", params.Limit))
-	// queryParams.Set("page", fmt.Sprintf("%d", params.Page))
+	queryParams.Set("limit", fmt.Sprintf("%d", params.Limit))
+	queryParams.Set("page", fmt.Sprintf("%d", params.Page))
 	if params.Date != "" {
 		queryParams.Set("date", params.Date)
 	}

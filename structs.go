@@ -116,17 +116,18 @@ type FireflyTransaction struct {
 }
 
 type Transaction struct {
-	Type            string `json:"type"`
-	Date            string `json:"date"`
-	Amount          string `json:"amount"`
-	Description     string `json:"description"`
-	CurrencyID      string `json:"currency_id"`
-	CurrencyCode    string `json:"currency_code"`
-	SourceID        string `json:"source_id"`
-	DestinationID   string `json:"destination_id"`
-	CategoryName    string `json:"category_name"`
-	SourceName      string `json:"source_name"`
-	DestinationName string `json:"destination_name"`
+	Type            string   `json:"type"`
+	Date            string   `json:"date"`
+	Amount          string   `json:"amount"`
+	Description     string   `json:"description"`
+	CurrencyID      string   `json:"currency_id"`
+	CurrencyCode    string   `json:"currency_code"`
+	SourceID        string   `json:"source_id"`
+	DestinationID   string   `json:"destination_id"`
+	CategoryName    string   `json:"category_name"`
+	SourceName      string   `json:"source_name"`
+	DestinationName string   `json:"destination_name"`
+	Tags            []string `json:"tags"`
 }
 
 type WeChatTransaction struct {
@@ -144,25 +145,38 @@ type WeChatTransaction struct {
 }
 
 type AlipayTransaction struct {
-	TransactionID    string `csv:"交易号"`
-	MerchantOrderID  string `csv:"商家订单号"`
-	TransactionTime  string `csv:"交易创建时间"`
-	PaymentTime      string `csv:"付款时间"`
-	LastModifiedTime string `csv:"最近修改时间"`
-	Source           string `csv:"交易来源地"`
-	Type             string `csv:"类型"`
-	Counterparty     string `csv:"交易对方"`
-	Goods            string `csv:"商品名称"`
-	Amount           string `csv:"金额（元）"`
-	InOrOut          string `csv:"收/支"`
-	Status           string `csv:"交易状态"`
-	ServiceFee       string `csv:"服务费（元）"`
-	SuccessRefund    string `csv:"成功退款（元）"`
-	Remark           string `csv:"备注"`
-	FundStatus       string `csv:"资金状态"`
+	TransactionTime     string `csv:"交易时间"`
+	TransactionCategory string `csv:"交易分类"`
+	Counterparty        string `csv:"交易对方"`
+	CounterpartyAccount string `csv:"对方账号"`
+	ProductDescription  string `csv:"商品说明"`
+	InOrOut             string `csv:"收/支"`
+	Amount              string `csv:"金额"`
+	PaymentMethod       string `csv:"收/付款方式"`
+	TransactionStatus   string `csv:"交易状态"`
+	TransactionID       string `csv:"交易订单号"`
+	MerchantOrderID     string `csv:"商家订单号"`
+	Notes               string `csv:"备注"`
+}
+
+type ICBCTransaction struct {
+	TransactionTime     string `csv:"交易日期"`
+	AccountNumber       string `csv:"账号"`
+	AccountType         string `csv:"储种"`
+	SerialNumber        string `csv:"序号"`
+	Currency            string `csv:"币种"`
+	CashExchange        string `csv:"钞汇"`
+	Summary             string `csv:"摘要"`
+	Region              string `csv:"地区"`
+	IncomeAmount        string `csv:"收入/支出金额"`
+	Balance             string `csv:"余额"`
+	Counterparty        string `csv:"对方户名"`
+	CounterpartyAccount string `csv:"对方账号"`
+	Channel             string `csv:"渠道"`
 }
 
 type TransactionError struct {
-	SourceData string
-	ErrorInfo  string
+	WeChatTransactionError WeChatTransaction
+	AlipayTransactionError AlipayTransaction
+	ErrorInfo              string
 }
