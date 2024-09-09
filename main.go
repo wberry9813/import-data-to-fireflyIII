@@ -25,15 +25,20 @@ func main() {
 
 	wechatFiles, err := utils.ReadCSVFiles("billing/wechat")
 	if err != nil {
-		log.Fatalf("Failed to read WeChat CSV files: %v", err)
+		fmt.Println("Failed to read WeChat CSV files: ", err)
 	}
 	alipayFiles, err := utils.ReadCSVFiles("billing/alipay")
 	if err != nil {
-		log.Fatalf("Failed to read Alipay CSV files: %v", err)
+		fmt.Println("Failed to read Alipay CSV files:", err)
 	}
 	icbcFiles, err := utils.ReadCSVFiles("billing/icbc")
 	if err != nil {
-		log.Fatalf("Failed to read ICBC CSV files: %v", err)
+		fmt.Println("Failed to read ICBC CSV files: ", err)
+	}
+
+	if condition := len(wechatFiles) == 0 && len(alipayFiles) == 0 && len(icbcFiles) == 0; condition {
+		fmt.Println("No CSV files found in the billing directories.")
+		return
 	}
 
 	params := RequestParams{

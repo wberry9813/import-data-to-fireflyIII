@@ -456,12 +456,12 @@ func (s *TransactionService) SaveLogAndMoveFiles() {
 	}
 
 	// 执行完所有业务逻辑后，移动文件
-	err := utils.MoveFilesToBackup("wechat", "backup")
+	err := utils.MoveFilesToBackup("billing/wechat", "backup")
 	if err != nil {
 		fmt.Println("移动微信文件失败:", err)
 	}
 
-	err = utils.MoveFilesToBackup("alipay", "backup")
+	err = utils.MoveFilesToBackup("billing/alipay", "backup")
 	if err != nil {
 		fmt.Println("移动支付宝文件失败:", err)
 	}

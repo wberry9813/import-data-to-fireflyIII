@@ -1,5 +1,5 @@
 
-alipay/
+billing/alipay/*
 
 go.sum
 
@@ -7,9 +7,9 @@ import-data-to-fireflyIII.exe
 
 backup/
 
-wechat/
+billing/wechat/*
 
-icbc/
+billing/icbc/*
 
 error
 
