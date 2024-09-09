@@ -12,3 +12,5 @@ wechat/
 icbc/
 
 error
+
+.env

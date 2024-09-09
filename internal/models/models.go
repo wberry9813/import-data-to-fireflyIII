@@ -1,4 +1,4 @@
-package main
+package models
 
 type FireflyAccount struct {
 	ID   string `json:"id"`

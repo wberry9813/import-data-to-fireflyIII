@@ -1,13 +1,11 @@
-package main
+package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"net/url"
 
-	"io"
+	. "import-data-to-fireflyIII/internal/models"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -26,14 +24,11 @@ func NewFireflyClient(baseURL, token string) *FireflyClient {
 	return &FireflyClient{client: client}
 }
 
-// getAccounts retrieves accounts from the Firefly API.
-func getAccounts(token string, params RequestParams) (FireflyAccountResponse, error) {
+// GetAccounts retrieves accounts from the Firefly API.
+func (f *FireflyClient) GetAccounts(params RequestParams) (FireflyAccountResponse, error) {
 	var response FireflyAccountResponse
 
-	client := &http.Client{}
-	baseURL := "http://192.168.50.32:18888/api/v1/accounts"
-
-	// Build the request URL with query parameters
+	// 构建查询参数
 	queryParams := url.Values{}
 	queryParams.Set("limit", fmt.Sprintf("%d", params.Limit))
 	queryParams.Set("page", fmt.Sprintf("%d", params.Page))
@@ -44,27 +39,18 @@ func getAccounts(token string, params RequestParams) (FireflyAccountResponse, er
 		queryParams.Set("type", params.Type)
 	}
 
-	req, err := http.NewRequest("GET", baseURL+"?"+queryParams.Encode(), nil)
+	// 发送请求
+	resp, err := f.client.R().
+		SetQueryParamsFromValues(queryParams).
+		SetResult(&response).
+		Get("/api/v1/accounts")
+
 	if err != nil {
 		return response, err
 	}
 
-	req.Header.Set("Authorization", "Bearer "+token)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return response, err
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(io.Reader(resp.Body))
-	if err != nil {
-		return response, err
-	}
-
-	err = json.Unmarshal(body, &response)
-	if err != nil {
-		return response, err
+	if resp.IsError() {
+		return response, fmt.Errorf("request failed with status %d", resp.StatusCode())
 	}
 
 	return response, nil
